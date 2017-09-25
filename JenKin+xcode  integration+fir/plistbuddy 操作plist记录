@@ -1,0 +1,63 @@
+plistbuddy 操作plist记录
+
+第一  打印初始化的plist文件
+	macserver1:JenKin+xcode  integration+fir admindyn$ /usr/libexec/PlistBuddy -c "print" info2.plist
+	Dict {
+	}
+第二 为新初始化的plist文件 添加第一对键值对 	（普通字段 key value）
+	macserver1:JenKin+xcode  integration+fir admindyn$ /usr/libexec/PlistBuddy -c 'Add :Version string 1.0' info2.plist
+	macserver1:JenKin+xcode  integration+fir admindyn$ 
+
+第三 添加数组字段，分两步走，注意：key之间用 : 隔开，且不能有空格：
+	# 先添加key值 没有value
+	/usr/libexec/PlistBuddy -c 'Add :Application array' info.plist
+
+	# 再添加对应数组key的value值 们 （发现 命令 比添加普通字段 多使用了 一次 冒号）
+	yans67deMacBook-Pro:needfiles huangyg$ /usr/libexec/PlistBuddy -c 'Add :Application: string app1' info.plist
+	yans67deMacBook-Pro:needfiles huangyg$ /usr/libexec/PlistBuddy -c 'Add :Application: string app2' info.plist
+	yans67deMacBook-Pro:needfiles huangyg$ /usr/libexec/PlistBuddy -c 'Add :Application: string app3' info.plist
+
+
+
+第四 添加字典字段，分两步走
+
+	# 先添加key值
+	/usr/libexec/PlistBuddy -c 'Add :Person dict' info.plist
+	# 添加value值,
+	/usr/libexec/PlistBuddy -c 'Add :Age string secret' info.plist
+	/usr/libexec/PlistBuddy -c 'Add :Person:Name string yans67' info.plist
+	/usr/libexec/PlistBuddy -c 'Add :Person:sex string boy' info.plist
+	/usr/libexec/PlistBuddy -c 'Add :Person:weight string 65' info.plist
+
+。
+
+
+第五 打印plist 对应的值
+	
+	输出 person字典 信息
+	/usr/libexec/PlistBuddy -c 'Print :Person' info.plist
+
+	Dict {
+    weight = 65
+    Name = yans67
+    sex = boy
+	}
+
+	输出字典某个键的值
+	macserver1:JenKin+xcode  integration+fir admindyn$ /usr/libexec/PlistBuddy -c 'Print :Person:Name' info2.plist
+	DYN-Name
+	macserver1:JenKin+xcode  integration+fir admindyn$ 
+
+	在array中我们还可以根据下标打印某个特定的值
+
+
+	/usr/libexec/PlistBuddy -c 'Print :Application:2' info.plist
+
+
+第六 删除 键值对
+	/usr/libexec/PlistBuddy -c 'Delete :Version' info.plist
+
+第七 修改 指定键值
+	/usr/libexec/PlistBuddy -c 'Set :Application:1 string "thi is app1"' info.plist
+
+
