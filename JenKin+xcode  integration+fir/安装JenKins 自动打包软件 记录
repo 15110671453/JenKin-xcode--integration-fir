@@ -1,0 +1,289 @@
+安装JenKins 自动打包软件 记录
+
+第一 下载JenKins
+	从官网 下载到安装包 
+
+
+	安装后 自动在safari 打开浏览器 地址是http://localhost:8080/securityRealm/firstUser
+
+	sh 也是终端命令  显示 当前mac shell的 版本号 2.73.1
+
+	http://man.linuxde.net/sh
+
+第二 研究JenKins服务 后台网站的网站目录
+	切换到目录 /Users/Shared/Jenkins/Home
+
+	修改secrets目录权限 
+
+	macserver1:Home admindyn$ sudo chmod 777 secrets
+
+	切换到 secrets目录
+
+	sudo  vi  initial
+
+	找到 密码
+	2f49bb737f744b6bba32bc4caa63d089
+
+	直接复制该密码 登陆 
+
+
+	登陆 第一次 会配置JetKin的一些需要的基本插件们
+
+
+	最后 注册 管理员 用户名密码
+
+	yanan.ding 密码 asd1453nmd  
+
+
+
+	找到JetKins的 后台管理界面的 网站 目录 /Users/Shared/Jenkins/Home/war/WEB-INF
+	http://localhost:8080/userContent/ 
+
+	可以访问到 
+
+	发现 是Java 写的网站   如何启动和关闭该网站服务？？？
+
+	我们到 JenKins 系统后台 系统管理下 系统设置  可以设置 该系统的网站域名 端口 等服务
+
+	到 系统管理下的  JenKins CLI 下 可以 下载JenKins CLI 终端 管理工具
+
+	http://localhost:8080/jnlpJars/jenkins-cli.jar
+
+	打印出 下载链接 发现 其实 该工具 在我们安装JenKins 已经 下载到本地 我们这里
+
+	在管理后台点击下载 也是从http://localhost:8080/jnlpJars/jenkins-cli.jar 我们本地 传输了一遍而已 
+
+
+	我们 将该终端工具包 下载 并且 移动到 macserver1:JenKins admindyn$ pwd
+	/Users/admindyn/Desktop/workspace/JenKins
+
+	文件夹下 方便我们以后使用
+
+
+第三  如何启动和关闭JenKins网站服务？？？
+
+
+	正确 使用 方法   这里需要注意 我们发现 我们在 系统配置中设置的域名 在这里 保持了 一致  但是 我们这里的做法是  依旧使用localhost 访问 但是在后台 为了
+	便于log 跟踪 我们这里 将后台填写的域名 iosJenkins 作为区分标记而已 因此 实际使用一下命令时 我们需要对应改为 localHost
+	java -jar jenkins-cli.jar -s http://iosJenkins:8080/ shutdown
+
+	在使用前 先检查自己的权限
+
+	macserver1:JenKins admindyn$ java -jar jenkins-cli.jar   -s http://localhost:8080/ who-am-i
+
+	ERROR: anonymous没有Overall/Read权限
+	macserver1:JenKins admindyn$ 
+
+	以上权限问题 在于 我们需要先登陆 才能执行以上命令
+
+##登录jenkins
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd
+
+
+##查看当前登录的是谁
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd who-am-i
+Authenticated as: yanan.ding
+Authorities:
+  authenticated
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd restart
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd version
+2.73.1
+macserver1:JenKins admindyn$ 
+
+
+##查看job列表
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd list-jobs
+
+##退出登录 没有测试过
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd  logout
+##重新加载job的配置 没有测试过
+java -jar jenkins-cli.jar -s http://localhost:8080 reload-job MultiJobTest-step2-2 --username yanan.ding --password asd1453nmd
+
+第四  如何启动和关闭JenKins网站服务？？？
+JenKins服务 启动
+	1. 在桌面新建一个jenkins.bat文件。内容如下：
+	(我们这里的JENKINS_HOME  路径在 /Applications/Jenkins/jenkins.war 可以将其添加到环境变量里去 测试添加成功 echo $JENKINS_HOME 就可以用下面的简单方式访问)
+	java -jar $JENKINS_HOME --httpPort=8080
+	2. 双击jenkins.bat就可以启动Jenkins了。
+
+	3. 看到“信息: Jenkins is fully up and running”，说明启动成功。
+
+	备注：
+
+	由于在环境变量里面设置了 JENKINS_HOME的值为jenkins的路径，所以这里就不用进行设置了。
+
+	如果需要在其他端口启动Jenkins，更改 –httpPort=yourport即可。
+
+	通过bat文件来启动的好处一是方便，二是不容易出错。
+
+	【		安装 Jenkins
+	方法一：直接下载安装包
+
+	安装完成后在 Terminal 中输入，即可打开 Jenkins。
+
+	open /Applications/Jenkins/jenkins.war】
+
+JenKins服务 关闭
+	方法一： 比较简单的方式 到服务的管理后台
+
+	点击“系统管理” ->　“准备关机”。
+
+	“准备关机”的说明：　停止执行新的构建任务以安全关闭计算机。
+方法二：
+
+	采用 Jenkins CLI的方式来关闭Jenkins。
+	java -jar jenkins-cli.jar -s http://localhost:8080/ shutdown
+
+JenKins服务 重启
+	采用 Jenkins CLI的方式来重启Jenkins。
+
+
+
+
+
+
+
+
+
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd
+
+
+  add-job-to-view
+    Adds jobs to view.
+  build
+    Builds a job, and optionally waits until its completion.
+  cancel-quiet-down
+    Cancel the effect of the "quiet-down" command.
+  clear-queue
+    Clears the build queue.
+  connect-node
+    Reconnect to a node(s)
+  console
+    Retrieves console output of a build.
+  copy-job
+    Copies a job.
+  create-credentials-by-xml
+    Create Credential by XML
+  create-credentials-domain-by-xml
+    Create Credentials Domain by XML
+  create-job
+    Creates a new job by reading stdin as a configuration XML file.
+  create-node
+    Creates a new node by reading stdin as a XML configuration.
+  create-view
+    Creates a new view by reading stdin as a XML configuration.
+  declarative-linter
+    Validate a Jenkinsfile containing a Declarative Pipeline
+  delete-builds
+    Deletes build record(s).
+  delete-credentials
+    Delete a Credential
+  delete-credentials-domain
+    Delete a Credentials Domain
+  delete-job
+    Deletes job(s).
+  delete-node
+    Deletes node(s)
+  delete-view
+    Deletes view(s).
+  disable-job
+    Disables a job.
+  disconnect-node
+    Disconnects from a node.
+  enable-job
+    Enables a job.
+  get-credentials-as-xml
+    Get a Credentials as XML (secrets redacted)
+  get-credentials-domain-as-xml
+    Get a Credentials Domain as XML
+  get-gradle
+    List available gradle installations
+  get-job
+    Dumps the job definition XML to stdout.
+  get-node
+    Dumps the node definition XML to stdout.
+  get-view
+    Dumps the view definition XML to stdout.
+  groovy
+    Executes the specified Groovy script. 
+  groovysh
+    Runs an interactive groovy shell.
+  help
+    Lists all the available commands or a detailed description of single command.
+  install-plugin
+    Installs a plugin either from a file, an URL, or from update center. 
+  install-tool
+    Performs automatic tool installation, and print its location to stdout. Can be only called from inside a build. [deprecated]
+  keep-build
+    Mark the build to keep the build forever.
+  list-changes
+    Dumps the changelog for the specified build(s).
+  list-credentials
+    Lists the Credentials in a specific Store
+  list-credentials-context-resolvers
+    List Credentials Context Resolvers
+  list-credentials-providers
+    List Credentials Providers
+  list-jobs
+    Lists all jobs in a specific view or item group.
+  list-plugins
+    Outputs a list of installed plugins.
+  login
+    Saves the current credentials to allow future commands to run without explicit credential information. [deprecated]
+  logout
+    Deletes the credentials stored with the login command. [deprecated]
+  mail
+    Reads stdin and sends that out as an e-mail.
+  offline-node
+    Stop using a node for performing builds temporarily, until the next "online-node" command.
+  online-node
+    Resume using a node for performing builds, to cancel out the earlier "offline-node" command.
+  quiet-down
+    Quiet down Jenkins, in preparation for a restart. Don’t start any builds.
+  reload-configuration
+    Discard all the loaded data in memory and reload everything from file system. Useful when you modified config files directly on disk.
+  reload-job
+    Reload job(s)
+  remove-job-from-view
+    Removes jobs from view.
+  replay-pipeline
+    Replay a Pipeline build with edited script taken from standard input
+  restart
+    Restart Jenkins.
+  safe-restart
+    Safely restart Jenkins.
+  safe-shutdown
+    Puts Jenkins into the quiet mode, wait for existing builds to be completed, and then shut down Jenkins.
+  session-id
+    Outputs the session ID, which changes every time Jenkins restarts.
+  set-build-description
+    Sets the description of a build.
+  set-build-display-name
+    Sets the displayName of a build.
+  set-build-parameter
+    Update/set the build parameter of the current build in progress. [deprecated]
+  set-build-result
+    Sets the result of the current build. Works only if invoked from within a build. [deprecated]
+  set-external-build-result
+    Set external monitor job result.
+  shutdown
+    Immediately shuts down Jenkins server.
+  update-credentials-by-xml
+    Update Credentials by XML
+  update-credentials-domain-by-xml
+    Update Credentials Domain by XML
+  update-job
+    Updates the job definition XML from stdin. The opposite of the get-job command.
+  update-node
+    Updates the node definition XML from stdin. The opposite of the get-node command.
+  update-view
+    Updates the view definition XML from stdin. The opposite of the get-view command.
+  version
+    Outputs the current version.
+  wait-node-offline
+    Wait for a node to become offline.
+  wait-node-online
+    Wait for a node to become online.
+  who-am-i
+    Reports your credential and permissions.
+macserver1:JenKins admindyn$ 

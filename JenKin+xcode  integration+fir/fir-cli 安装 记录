@@ -1,0 +1,85 @@
+fir-cli 安装 记录
+
+先检查 rvm gem 是否安装成功 并检查版本号
+
+Last login: Mon Sep 25 09:51:43 on ttys000
+macserver1:~ admindyn$ rvm -v
+Warning! PATH is not properly set up, '/Users/admindyn/.rvm/gems/ruby-2.3.0/bin' is not at first place,
+         usually this is caused by shell initialization files - check them for 'PATH=...' entries,
+         it might also help to re-add RVM to your dotfiles: 'rvm get stable --auto-dotfiles',
+         to fix temporarily in this shell session run: 'rvm use ruby-2.3.0'.
+rvm 1.27.0 (latest) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
+macserver1:~ admindyn$ gem -v
+2.6.12
+
+开始安装fir-cli
+
+macserver1:~ admindyn$ gem install fir-cli
+Fetching: unf_ext-0.0.7.4.gem (100%)
+Building native extensions.  This could take a while...
+Successfully installed unf_ext-0.0.7.4
+Fetching: unf-0.1.4.gem (100%)
+Successfully installed unf-0.1.4
+Fetching: domain_name-0.5.20170404.gem (100%)
+Successfully installed domain_name-0.5.20170404
+Fetching: http-cookie-1.0.3.gem (100%)
+Successfully installed http-cookie-1.0.3
+Fetching: mime-types-data-3.2016.0521.gem (100%)
+Successfully installed mime-types-data-3.2016.0521
+Fetching: mime-types-3.1.gem (100%)
+Successfully installed mime-types-3.1
+Fetching: netrc-0.11.0.gem (100%)
+Successfully installed netrc-0.11.0
+Fetching: rest-client-2.0.2.gem (100%)
+Successfully installed rest-client-2.0.2
+Fetching: rubyzip-1.2.1.gem (100%)
+Successfully installed rubyzip-1.2.1
+Fetching: ruby_android-0.7.7.gem (100%)
+Successfully installed ruby_android-0.7.7
+Fetching: rqrcode-0.10.1.gem (100%)
+Successfully installed rqrcode-0.10.1
+Fetching: fir-cli-1.6.3.gem (100%)
+
+        ______________        ________    ____
+       / ____/  _/ __ \      / ____/ /   /  _/
+      / /_   / // /_/ /_____/ /   / /    / /
+     / __/ _/ // _, _/_____/ /___/ /____/ /
+    /_/   /___/_/ |_|      \____/_____/___/
+
+  ## 更新记录
+  ### fir-cli 1.5.1
+  - 修复了在 ruby 2.4.0 中登录出错的bug
+  - 详细更新记录, 请查看: https://github.com/FIRHQ/fir-cli/blob/master/CHANGELOG
+  - [fir-cli](https://github.com/FIRHQ/fir-cli) 已经开源
+  - 欢迎 fork, issue 和 pull request
+  
+Successfully installed fir-cli-1.6.3
+Parsing documentation for unf_ext-0.0.7.4
+Installing ri documentation for unf_ext-0.0.7.4
+Parsing documentation for unf-0.1.4
+Installing ri documentation for unf-0.1.4
+Parsing documentation for domain_name-0.5.20170404
+Installing ri documentation for domain_name-0.5.20170404
+Parsing documentation for http-cookie-1.0.3
+Installing ri documentation for http-cookie-1.0.3
+Parsing documentation for mime-types-data-3.2016.0521
+Installing ri documentation for mime-types-data-3.2016.0521
+Parsing documentation for mime-types-3.1
+Installing ri documentation for mime-types-3.1
+Parsing documentation for netrc-0.11.0
+Installing ri documentation for netrc-0.11.0
+Parsing documentation for rest-client-2.0.2
+Installing ri documentation for rest-client-2.0.2
+Parsing documentation for rubyzip-1.2.1
+Installing ri documentation for rubyzip-1.2.1
+Parsing documentation for ruby_android-0.7.7
+Installing ri documentation for ruby_android-0.7.7
+Parsing documentation for rqrcode-0.10.1
+Installing ri documentation for rqrcode-0.10.1
+Parsing documentation for fir-cli-1.6.3
+Installing ri documentation for fir-cli-1.6.3
+Done installing documentation for unf_ext, unf, domain_name, http-cookie, mime-types-data, mime-types, netrc, rest-client, rubyzip, ruby_android, rqrcode, fir-cli after 13 seconds
+12 gems installed
+macserver1:~ admindyn$ 
+
+

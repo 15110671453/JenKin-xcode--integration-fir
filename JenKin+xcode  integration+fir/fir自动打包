@@ -1,0 +1,50 @@
+fir自动打包 
+使用 apitoken 36f36739bf2756e655be8d3c7e7a3ab7
+
+fir 命令 
+
+打包IPA命令
+
+bogon:~ ×××××××××$ fir build_ipa /Users/wuxianlvzhou/Desktop/ios_app/Panda/FatherKnows.xcworkspace -o /Users/wuxianlvzhou/Desktop/CMD-IPA -w -C Release -S FatherKnows
+
+上传fir内测网命令
+
+bogon:~ ×××××××××$ fir publish /Users/wuxianlvzhou/Desktop/CMD-IPA/FatherKnows-1.2.5-build-1.ipa
+
+上面的两个命令步骤也可以用一条命令来实现
+
+打包IPA并上传fir的命令:
+fir build_ipa  /Users/wuxianlvzhou/Desktop/ios_app/Panda/FatherKnows.xcworkspace -o /Users/wuxianlvzhou/Desktop/CMD-IPA -w -C Release -S 盼达用车 -p
+
+相比之下 就是多了一个 -p指令
+
+fir build_ipa 【项目路径的.xcworkspace】 -o 【打出来的IPA包的路径】 -w -C【编译环境】 -S【项目名称】 -p
+
+Xcode打包编译号问题 
+
+Xcode打包iOS应用时自动增加编译号
+
+每次上传到iTunes Connect的iOS应用包，如果是新版本，则版本号（version）必须也要比之前的版本号大。如果版本号一样，则编译号（build number）是必须比之前的编译号大。如上一个版本是1.2.4，其中1.2是版本号，4是编译号，则此次上传的编译号必须大于4.但是每次都去手动修改编译号是很麻烦的，有时候你都花了2个小时打包好应用后，发现编译号居然没改，这就坑爹了。于是我就想能不能每次打包时能够自动增加编译号。我经过两个晚上的尝试，找到了办法来实现这个功能。
+选择“Build Phases”选项卡
+
+
+点击“＋”按钮
+
+
+在弹出的菜单中选择“New Run Script Phase..."
+
+
+修改名称，单击标签名的“Run Script"，此处是为了增加编译号，所以名称我就改成了Build Number
+
+在输入框中输入：
+echo $CONFIGURATION
+if [ "Release" == "${CONFIGURATION}" ]
+then
+buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${PROJECT_DIR}/${INFOPLIST_FILE}")
+buildNumber=$(($buildNumber + 1))
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "${PROJECT_DIR}/${INFOPLIST_FILE}"
+echo "build number increase"
+fi
+
+
+

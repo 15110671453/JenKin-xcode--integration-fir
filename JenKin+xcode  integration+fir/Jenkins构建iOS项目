@@ -1,0 +1,134 @@
+Jenkins构建iOS项目
+
+优点
+用xcode archive 导出ipa 然后上传到fir/蒲公英等测试平台 需要花至少10到20分钟,使用Jenkins搭建的持续集成环境只需3分钟. 下面是我今天早上研究的成果,由于Jenkins是基于java开发的先要安装JDK java官网直接下载安装.
+
+自动拉取GitHub/SVN 上传到fir/蒲公英
+
+第一 配置插件
+	配置 Jenkins 满足我们功能需要的插件
+
+	下载以下插件
+
+	Subversion Plug-in（svn）
+	Xcode integration（Xcode）
+	Environment Injector Plugin（自定义全局变量）
+	Email Extension Plugin（邮件）
+	fir.im插件 下载地址需要手动配置 点击高级选项卡
+
+
+	安装成功后，如果没有创建 Jenkins 项目，请先创建项目。如果需要配置已存在的项目，请进入在配置中找到增加构建后操作步骤，并选择Upload to fir.im添加到 Jenkins 项目中。 
+
+	在JenKins中安装 fir 平台服务的插件
+	http://blog.fir.im/jenkins/
+
+	安装 fir.im 的上传插件
+	插件介绍
+	该插件主要功能有2点：
+
+	上传 apk/ipa 安装包 到 fir.im
+	上传符号表到 BugHD，方便查看混淆后的 Log 日志
+	注意：在使用之前，请确认自己创建的 Jenkins 项目可以正常编译生成 ipa/apk 文件。 该插件的一般使用情景是编译完生成 apk/ipa 后，如果未指定 apk/ipa 生成目录，插件会默认选择 Jenkins 项目目录。
+
+第二 插件安装后配置Firm插件功能
+	先安装对应上传插件  安装完后 再次进入 Jenkins项目
+	中 进入配置 下 选择 增加构建后操作步骤 发现 可选项
+	中 多了一个 Upload to fir.im 选择它  进行 配置 即可
+
+
+第三 在配置前  发现 之前第一步初始化Jenkins时安装的插件中没有安装Xcode integration 所以我们先安装Xcode integration插件 然后配置
+	配置构建IOS项目需要编译工具路径
+
+
+	系统管理->系统设置中可以进行全局配置
+
+	比如Xcode Builder（钥匙串设置）
+
+	我们 打开设置界面 我们发现
+	xcodebuild executable path ： /usr/bin/xcodebuild
+	agvtool executable path    ： /usr/bin/agvtool 
+	xcrun executable path      ： /usr/bin/xcrun
+
+	这些参数都已经默认设置好了 基本不需要改的
+
+	我们需要设置一下参数
+
+	需填写的内容：
+
+	Keychain Name：iPhone Distribution:*（dis证书常用名）
+	Keychain path：${HOME}/Library/Keychains/login.keychain
+	Keychain password：*
+	Add to keychain search path after build：Yes
+	Default keychain:iPhone Distribution:*
+----------为构建 设置 定时器 任务--------------
+构建触发器设置这里是设置自动化测试的地方。这里涉及的内容很多，暂时我也没有深入研究，这里暂时先不设置。有自动化测试需求的可以好好研究研究这里的设置。
+
+不过这里有两个配置还是需要是配置的
+
+Poll SCM (poll source code management) 轮询源码管理
+需要设置源码的路径才能起到轮询的效果。一般设置为类似结果： 0/5 每5分钟轮询一次
+Build periodically (定时build)
+一般设置为类似： 00 20 * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。
+
+格式是这样的
+
+分钟(0-59) 小时(0-23) 日期(1-31) 月(1-12) 周几(0-7,0和7都是周日)
+
+
+----------IOS 自动化打包 ---------------
+
+ iOS自动化打包命令——xcodebuild + xcrun 和 fastlane - gym 命令
+
+在日常开发中，打包是最后上线不可缺少的环节，如果需要把工程打包成 ipa 文件，通常的做法就是在 Xcode 里点击 「Product -> Archive」，当整个工程 archive 后，然后在自动弹出的 「Organizer」 中进行选择，根据需要导出 ad hoc，enterprise 类型的 ipa 包。虽然Xcode已经可以很完美的做到打包的事情，但是还是需要我们手动点击5，6下。加上我们现在需要持续集成，用打包命令自动化执行就顺其自然的需要了。
+
+1. xcodebuild + xcrun命令
+
+Xcode为我们开发者提供了一套构建打包的命令，就是xcodebuild
+和xcrun命令。xcodebuild把我们指定的项目打包成.app文件，xcrun将指定的.app文件转换为对应的.ipa文件。
+
+
+# 工程名
+APP_NAME="YourProjectName"
+# 证书
+CODE_SIGN_DISTRIBUTION="iPhone Distribution: Shanghai ******* Co., Ltd."
+# info.plist路径
+project_infoplist_path="./${APP_NAME}/Info.plist"
+
+#取版本号
+bundleShortVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleShortVersionString" "${project_infoplist_path}")
+
+#取build值
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" "${project_infoplist_path}")
+
+DATE="$(date +%Y%m%d)"
+IPANAME="${APP_NAME}_V${bundleShortVersion}_${DATE}.ipa"
+
+#要上传的ipa文件路径
+IPA_PATH="$HOME/${IPANAME}"
+echo ${IPA_PATH}
+echo "${IPA_PATH}">> text.txt
+
+//下面2行是没有Cocopods的用法
+echo "=================clean================="
+xcodebuild -target "${APP_NAME}"  -configuration 'Release' clean
+
+echo "+++++++++++++++++build+++++++++++++++++"
+xcodebuild -target "${APP_NAME}" -sdk iphoneos -configuration 'Release' CODE_SIGN_IDENTITY="${CODE_SIGN_DISTRIBUTION}" SYMROOT='$(PWD)'
+
+//下面2行是集成有Cocopods的用法
+echo "=================clean================="
+xcodebuild -workspace "${APP_NAME}.xcworkspace" -scheme "${APP_NAME}"  -configuration 'Release' clean
+
+echo "+++++++++++++++++build+++++++++++++++++"
+xcodebuild -workspace "${APP_NAME}.xcworkspace" -scheme "${APP_NAME}" -sdk iphoneos -configuration 'Release' CODE_SIGN_IDENTITY="${CODE_SIGN_DISTRIBUTION}" SYMROOT='$(PWD)'
+
+xcrun -sdk iphoneos PackageApplication "./Release-iphoneos/${APP_NAME}.app" -o ~/"${IPANAME}"
+
+作者：一缕殇流化隐半边冰霜
+链接：http://www.jianshu.com/p/41ecb06ae95f
+來源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
