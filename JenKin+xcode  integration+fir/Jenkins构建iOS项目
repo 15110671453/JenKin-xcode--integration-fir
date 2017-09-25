@@ -60,6 +60,14 @@ Jenkins构建iOS项目
 	Keychain password：*
 	Add to keychain search path after build：Yes
 	Default keychain:iPhone Distribution:*
+
+配置 keychain 有一个插件可以尝试安装Keychains and Provisioning Profiles Management
+
+果然还是缺少 Keychains and Provisioning Profiles Management插件 
+
+注意：我第一次导入证书和Provisioning Profiles文件，就遇到了一点小“坑”，我当时以为是需要证书，但是这里需要的Keychain，并不是cer证书文件。这个Keychain其实在/Users/管理员用户名/Library/keychains/login.keychain,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到/Users/Shared/Jenkins/Library/keychains这里，(Library是隐藏文件)。Provisioning Profiles文件也直接拷贝到/Users/Shared/Jenkins/Library/MobileDevice文件目录下。
+
+
 ----------为构建 设置 定时器 任务--------------
 构建触发器设置这里是设置自动化测试的地方。这里涉及的内容很多，暂时我也没有深入研究，这里暂时先不设置。有自动化测试需求的可以好好研究研究这里的设置。
 
