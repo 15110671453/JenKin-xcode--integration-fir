@@ -510,5 +510,14 @@ Finished: FAILURE
 
 发现 这些 xcode build 添加的脚本信息 没有在控制台输出 而是在xcode 项目导航栏 最右侧 （show the report navigator）(这里会显示项目在构建 编译 链接 打包 整个过程） 并且工具重要选 显示allmessage 我们就可以看到我们在build时 同时执行的脚本的结果信息了
 
+--*****************--
+20170926最后一次调试
+修改 目录
+/Users/admindyn/Library/Developer/Xcode/DerivedData/JenKinTest-giudfoohkmpxfpgpcjjszczkexhg/Build/Products
+中 文件夹
+Debug-iphoneos 权限
+下 
 
+
+----****原来Keychains and Provisioning Profiles Management 我们安装的插件 在系统管理 下 不用 到系统设置 全剧设置下设置 无语***----
 
