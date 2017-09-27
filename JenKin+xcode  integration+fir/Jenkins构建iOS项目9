@@ -1,0 +1,32 @@
+Jenkins构建iOS项目9
+-----对一下问题 继续寻求解决方法
+	Check dependencies
+No iOS profile matching '58W4HKZ65K/JENKINDistributionFile' found:  Xcode couldn't find a profile matching '58W4HKZ65K/JENKINDistributionFile'. Install the profile (by dragging and dropping it onto Xcode's dock item) or select a different one in the General tab of the target editor.
+Code signing is required for product type 'Application' in SDK 'iOS 10.3'
+
+----------方法1----------
+sudo ln -s /Applications/Xcode.app/Contents/Developer/usr/bin/xcscontro‌​l /Applications/Xcode.app/Contents/Developer/usr/bin/xcrun
+
+------方法2-----
+macserver1:Library admindyn$ cd /Users/Shared/Jenkins/Library
+
+macserver1:Provisioning Profiles admindyn$ sudo cp /Users/admindyn/Downloads/JENKINDistributionFile.mobileprovision ./
+Password:
+
+macserver1:Provisioning Profiles admindyn$ sudo mv JENKINDistributionFile.mobileprovision ./58W4HKZ65K\:JENKINDistributionFile.mobileprovision
+Password:
+macserver1:Provisioning Profiles admindyn$ 
+
+---方法 2 修改 将文件修改为需要的名字 并且复制到 kppupload下 
+
+cd /Users/Shared/Jenkins/Home/kpp_upload
+
+macserver1:kpp_upload admindyn$ sudo cp /Users/admindyn/Downloads/58W4HKZ65K\:JENKINDistributionFile.mobileprovision ./
+macserver1:kpp_upload admindyn$ 
+
+---方法 3---
+cd /Users/Shared/Jenkins/Home/kpp_upload
+macserver1:kpp_upload admindyn$ sudo mkdir 58W4HKZ65K
+macserver1:kpp_upload admindyn$ cd 58W4HKZ65K
+macserver1:58W4HKZ65K admindyn$ sudo cp /Users/admindyn/Downloads/JENKINDistributionFile.mobileprovision ./
+macserver1:58W4HKZ65K admindyn$ 

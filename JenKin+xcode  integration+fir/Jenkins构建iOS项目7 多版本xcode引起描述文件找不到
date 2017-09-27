@@ -68,7 +68,13 @@ sudo cp -r /Users/admindyn/Library/MobileDevice/Provisioning\ Profiles/ ./
 -f：强行复制文件或目录，不论目标文件或目录是否已存在；
 
 
----以上还是有问题  采用 这个方法macserver1:Library admindyn$ sudo cp -r /Users/admindyn/Library/MobileDevice/ ./
+---以上还是有问题  采用 这个方法
+先 cd  /Users/Shared/Jenkins/Library
+macserver1:Library admindyn$ pwd
+/Users/Shared/Jenkins/Library
+macserver1:Library admindyn$ 
+macserver1:Library 
+admindyn$ sudo cp -r /Users/admindyn/Library/MobileDevice/ ./
 Password:
 macserver1:Library admindyn$ ls -la
 total 24

@@ -1,0 +1,38 @@
+Jenkins构建iOS项目10
+
+快捷查看系统中能用来对代码进行签名的证书
+
+可以使用如下命令：
+展示证书
+
+macserver1:kpp_upload admindyn$ security unlock-keychain -p asd1453nmd /Users/admindyn/Library/Keychains/login.keychain
+macserver1:kpp_upload admindyn$ security list-keychains -s /Users/admindyn/Library/Keychains/login.keychain
+macserver1:kpp_upload admindyn$ security find-identity -v -p codesigning
+  1) D1FCAC2B00AE00A1ADBC8062D19C2447E5CD86D8 "iPhone Developer: yanan ding (3FA9BAV9X9)" (CSSMERR_TP_CERT_REVOKED)
+  2) 0D673CA5D8779F8CA24E9100058226228C67BBFA "iPhone Distribution: CHRising Information & Consulting Co., Ltd."
+  3) 9896C2CF200C658E160F050F871D56CD7DC05806 "iPhone Developer: 15110671453@163.com (K85955Q8X8)"
+  4) FA3CEC2F92E695627659D9DE6CB337ED730279F4 "iPhone Developer: yanan ding (3FA9BAV9X9)"
+  5) C547FB47D30530B850866A16FF38805B35A0F16A "iPhone Developer: it_support@bjcric1.com (3254UXDJXX)"
+  6) FB376C6EECA7B47776E322F627BF31BA85F83F9A "Mac Developer: yanan ding (3FA9BAV9X9)"
+  7) B41194B03EC12B07930845833EA03BA3C5515FE5 "macserver1.local Code Signing Certificate"
+     7 valid identities found
+macserver1:kpp_upload admindyn$
+
+删除证书
+	security delete-certificate -Z SHA1
+		注：将SHA1替换成证书的sha1，sha1的值，可以通过find-identity命令看到，它是一个40位的随即字符串
+导入证书
+	先解锁 钥匙串
+	security unlock-keychain -p asd1453nmd /Users/admindyn/Library/Keychains/login.keychain
+
+	list-keychains   显示或设置钥匙串搜索列表
+
+	security list-keychains -s /Users/admindyn/Library/Keychains/login.keychain
+
+	导入 证书 （以p12形式导入）
+	security import p12_filepath -k /Users/admindyn/Library/Keychains/login.keychain -P p12_password -T /usr/bin/codesign
+
+
+
+
+	证书的私钥是用来签名的，通过签名可以确保程序是没有被篡改的。其中私钥放在自己电脑上，公钥则放在苹果服务器上。
