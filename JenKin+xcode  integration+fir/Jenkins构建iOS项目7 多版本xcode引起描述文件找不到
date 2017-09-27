@@ -54,3 +54,30 @@ macserver1:~ admindyn$ xcodebuild -version
 Xcode 8.0
 Build version 8A218a
 macserver1:~ admindyn$ 
+
+
+
+------依旧构建报错 最后 将所有描述文件都 cp 到 JenKin目录
+cd /Users/Shared/Jenkins/Home/kpp_upload/
+sudo cp -r /Users/admindyn/Library/MobileDevice/Provisioning\ Profiles/ ./
+
+
+
+--***cp**----
+-R/r：递归处理，将指定目录下的所有文件与子目录一并处理；
+-f：强行复制文件或目录，不论目标文件或目录是否已存在；
+
+
+---以上还是有问题  采用 这个方法macserver1:Library admindyn$ sudo cp -r /Users/admindyn/Library/MobileDevice/ ./
+Password:
+macserver1:Library admindyn$ ls -la
+total 24
+drwxr-xr-x   8 jenkins  jenkins    272  9 27 13:24 .
+drwxr-xr-x   7 jenkins  jenkins    238  9 25 13:18 ..
+-rw-r--r--@  1 root     jenkins  10244  9 27 13:24 .DS_Store
+drwxr-xr-x   3 jenkins  jenkins    102  9 26 11:03 Developer
+drwxr-xr-x   3 jenkins  jenkins    102  9 26 12:34 Keychains
+drwxr-xr-x   3 jenkins  jenkins    102  9 26 11:03 Logs
+drwxr-xr-x   6 jenkins  jenkins    204  9 26 11:59 Preferences
+drwxr-xr-x  91 root     jenkins   3094  9 27 13:24 Provisioning Profiles
+macserver1:Library admindyn$ --
