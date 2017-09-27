@@ -1,0 +1,67 @@
+Jenkins构建iOS项目3
+
+
+
+修改工作空间目录 /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/WorkSpace
+
+----依旧构建失败-----
+
+Started by user yanan.ding
+Building in workspace /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/WorkSpace
+Working directory is /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/WorkSpace.
+[WorkSpace] $ /usr/bin/xcodebuild -version
+Xcode 8.3.2
+Build version 8E2002
+Fetching marketing version number (CFBundleShortVersionString) from project.
+[WorkSpace] $ /usr/bin/agvtool mvers -terse1
+No marketing version found (CFBundleShortVersionString).
+Marketing version (CFBundleShortVersionString) found in project configuration: .
+Fetching technical version number (CFBundleVersion) from project.
+[WorkSpace] $ /usr/bin/agvtool vers -terse
+No marketing version found (CFBundleVersion)
+Technical version (CFBundleVersion) found in project configuration: .
+Marketing version (CFBundleShortVersionString) used by Jenkins to produce the IPA: 
+Technical version (CFBundleVersion) used by Jenkins to produce the IPA: 
+===========================================================
+== Available provisioning profiles
+[WorkSpace] $ /usr/bin/security find-identity -p codesigning -v
+  1) D1FCAC2B00AE00A1ADBC8062D19C2447E5CD86D8 "iPhone Developer: yanan ding (3FA9BAV9X9)"
+  2) 0D673CA5D8779F8CA24E9100058226228C67BBFA "iPhone Distribution: CHRising Information & Consulting Co., Ltd."
+  3) 9896C2CF200C658E160F050F871D56CD7DC05806 "iPhone Developer: 15110671453@163.com (K85955Q8X8)"
+  4) FA3CEC2F92E695627659D9DE6CB337ED730279F4 "iPhone Developer: yanan ding (3FA9BAV9X9)"
+  5) C547FB47D30530B850866A16FF38805B35A0F16A "iPhone Developer: it_support@bjcric1.com (3254UXDJXX)"
+  6) FB376C6EECA7B47776E322F627BF31BA85F83F9A "Mac Developer: yanan ding (3FA9BAV9X9)"
+  7) B41194B03EC12B07930845833EA03BA3C5515FE5 "macserver1.local Code Signing Certificate"
+     7 valid identities found
+== Can we find the requested provisioning profile ?
+[WorkSpace] $ /usr/bin/security find-certificate -a -c 58W4HKZ65K -Z | grep ^SHA-1
+== Available SDKs
+[WorkSpace] $ /usr/bin/xcodebuild -showsdks
+iOS SDKs:
+	iOS 10.3                      	-sdk iphoneos10.3
+
+iOS Simulator SDKs:
+	Simulator - iOS 10.3          	-sdk iphonesimulator10.3
+
+macOS SDKs:
+	macOS 10.12                   	-sdk macosx10.12
+
+tvOS SDKs:
+	tvOS 10.2                     	-sdk appletvos10.2
+
+tvOS Simulator SDKs:
+	Simulator - tvOS 10.2         	-sdk appletvsimulator10.2
+
+watchOS SDKs:
+	watchOS 3.2                   	-sdk watchos3.2
+
+watchOS Simulator SDKs:
+	Simulator - watchOS 3.2       	-sdk watchsimulator3.2
+
+== Available schemes
+[WorkSpace] $ /usr/bin/xcodebuild -list
+xcodebuild: error: The directory /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/WorkSpace does not contain an Xcode project or workspace.
+
+
+Build step 'Xcode' marked build as failure
+Finished: FAILURE

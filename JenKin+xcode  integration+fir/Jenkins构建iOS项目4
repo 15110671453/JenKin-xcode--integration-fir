@@ -1,0 +1,117 @@
+Jenkins构建iOS项目4
+
+对于 xcodebuild[11665:212411]  DVTAssertions: Warning in /Library/Caches/com.apple.xbs/Sources/IDEXcode3ProjectSupport/IDEXcode3ProjectSupport-12122/Xcode3Core/LegacyProjects/Frameworks/DevToolsCore/DevToolsCore/BuildSystem/DependencyGraph/XCDependencyGraph.mm:688
+Details:  unable to write dependency graph: You don’t have permission to save the file “JenKinTest.build” in the folder “Release-iphoneos”.
+Object:   <XCDependencyGraph>
+Method:   +loadOrCreateInBuildDirectory:withTargetBuildContext:withBasePath:
+Thread:   <NSThread: 0x7fb6f2e53dd0>{number = 8, name = (null)}
+Please file a bug at http://bugreport.apple.com with this warning message and any useful information you can provide.
+
+--------以上的权限无法写入 报错 解决成功
+由于我们自定义了 工作空间 因此 并没有从git svn 等抓取代码 而是我们本地源码路径/Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest  我们将其指定为 JenKin的工作空间  同时 指定了 
+SYMROOT=/Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins BUILD_DIR=/Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/IPAResults 
+
+因此我们 自己创建的这几个目录需要 给JenKin用户添加
+读写权限  我们给这些文件夹添加权限时 我们就会发现用户表多了一个用户 JenKin 同时为IPAResults和buildJenKins 添加两个文件夹 Debug-iphoneosRelease-iphoneos并添加权限 
+------------
+
+----证明我们的方法 没问题成功解决 其实只需要对IPAResults和buildJenKins添加权限就可以 因为我们发现 
+	第一
+		JenKin自动添加了 /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins/JenKinTest.build 路径 创建了给文件夹 
+
+ 	第二
+ 		自动创建 /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins/JenKinTest.build/Debug-iphoneos 路径 创建了文件夹 -----
+
+
+Started by user yanan.ding
+Building in workspace /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest
+Working directory is /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest.
+[JenKinTest] $ /usr/bin/xcodebuild -version
+Xcode 8.3.2
+Build version 8E2002
+Fetching marketing version number (CFBundleShortVersionString) from project.
+[JenKinTest] $ /usr/bin/agvtool mvers -terse1
+Found marketing version (CFBundleShortVersionString): 2.1.
+Marketing version (CFBundleShortVersionString) found in project configuration: 2.1.
+Fetching technical version number (CFBundleVersion) from project.
+[JenKinTest] $ /usr/bin/agvtool vers -terse
+No marketing version found (CFBundleVersion)
+Technical version (CFBundleVersion) found in project configuration: .
+Marketing version (CFBundleShortVersionString) used by Jenkins to produce the IPA: 2.1
+Technical version (CFBundleVersion) used by Jenkins to produce the IPA: 
+===========================================================
+== Available provisioning profiles
+[JenKinTest] $ /usr/bin/security find-identity -p codesigning -v
+  1) D1FCAC2B00AE00A1ADBC8062D19C2447E5CD86D8 "iPhone Developer: yanan ding (3FA9BAV9X9)"
+  2) 0D673CA5D8779F8CA24E9100058226228C67BBFA "iPhone Distribution: CHRising Information & Consulting Co., Ltd."
+  3) 9896C2CF200C658E160F050F871D56CD7DC05806 "iPhone Developer: 15110671453@163.com (K85955Q8X8)"
+  4) FA3CEC2F92E695627659D9DE6CB337ED730279F4 "iPhone Developer: yanan ding (3FA9BAV9X9)"
+  5) C547FB47D30530B850866A16FF38805B35A0F16A "iPhone Developer: it_support@bjcric1.com (3254UXDJXX)"
+  6) FB376C6EECA7B47776E322F627BF31BA85F83F9A "Mac Developer: yanan ding (3FA9BAV9X9)"
+  7) B41194B03EC12B07930845833EA03BA3C5515FE5 "macserver1.local Code Signing Certificate"
+     7 valid identities found
+== Can we find the requested provisioning profile ?
+[JenKinTest] $ /usr/bin/security find-certificate -a -c 58W4HKZ65K -Z | grep ^SHA-1
+== Available SDKs
+[JenKinTest] $ /usr/bin/xcodebuild -showsdks
+iOS SDKs:
+	iOS 10.3                      	-sdk iphoneos10.3
+
+iOS Simulator SDKs:
+	Simulator - iOS 10.3          	-sdk iphonesimulator10.3
+
+macOS SDKs:
+	macOS 10.12                   	-sdk macosx10.12
+
+tvOS SDKs:
+	tvOS 10.2                     	-sdk appletvos10.2
+
+tvOS Simulator SDKs:
+	Simulator - tvOS 10.2         	-sdk appletvsimulator10.2
+
+watchOS SDKs:
+	watchOS 3.2                   	-sdk watchos3.2
+
+watchOS Simulator SDKs:
+	Simulator - watchOS 3.2       	-sdk watchsimulator3.2
+
+== Available schemes
+[JenKinTest] $ /usr/bin/xcodebuild -list
+Information about project "JenKinTest":
+    Targets:
+        JenKinTest
+        JenKinTestTests
+        JenKinTestUITests
+
+    Build Configurations:
+        Debug
+        Release
+
+    If no build configuration is specified and -scheme is not passed then "Release" is used.
+
+    Schemes:
+        JenKinTest
+
+
+===========================================================
+Going to invoke xcodebuild:target: JenKinTest, sdk: DEFAULT, project: DEFAULT, configuration: Debug, clean: NO, archive:NO, symRoot: /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins, buildDir: /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/IPAResults, developmentTeamID: 58W4HKZ65K
+[JenKinTest] $ /usr/bin/xcodebuild -target JenKinTest -configuration Debug build SYMROOT=/Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins BUILD_DIR=/Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/IPAResults DEVELOPMENT_TEAM=58W4HKZ65K
+Build settings from command line:
+    BUILD_DIR = /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/IPAResults
+    DEVELOPMENT_TEAM = 58W4HKZ65K
+    SYMROOT = /Users/admindyn/Desktop/工作/集分宝项目工作目录/JenKinTest/buildJenKins
+
+=== BUILD TARGET JenKinTest OF PROJECT JenKinTest WITH CONFIGURATION Debug ===
+
+Check dependencies
+No iOS profile matching '58W4HKZ65K/JENKINDistributionFile' found:  Xcode couldn't find a profile matching '58W4HKZ65K/JENKINDistributionFile'. Install the profile (by dragging and dropping it onto Xcode's dock item) or select a different one in the General tab of the target editor.
+Code signing is required for product type 'Application' in SDK 'iOS 10.3'
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	Check dependencies
+(1 failure)
+Build step 'Xcode' marked build as failure
+Finished: FAILURE
