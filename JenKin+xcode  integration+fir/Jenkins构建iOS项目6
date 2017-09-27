@@ -1,0 +1,11 @@
+Jenkins构建iOS项目6
+
+对于 JenKin配置的keychain
+
+  由于我们Mac是多用户登陆  发现KeyChain目录下有多个loginKeyChain
+
+  那么系统到底需要哪一个呢
+
+  配置 构建成功（但是没有打包IPA成功 因为描述文件问题）后 我们发现JenKIn在我们的工作空间中 将
+  login.keychain 复制到了目录下
+  其他用户admindyn.keychanin 等没有管

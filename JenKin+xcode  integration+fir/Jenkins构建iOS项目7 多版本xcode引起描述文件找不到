@@ -1,0 +1,56 @@
+Jenkins构建iOS项目7 多版本xcode引起描述文件找不到
+
+如果你的电脑中有几个xcode版本，比如一个xcode5.1.1,一个xcode6-beta, 当你打开工程的时候，通常会有一个默认配置，或者使用terminal命令行操作，需要选择使用xcode的不同版本，怎么更改这个配置呢? 请看下文：
+
+It’s not uncommon developers to have multiple versions of Xcode installed. For example, I typically have the latest beta as well as the most current production release installed.
+However, there are times when you may want various tools, such as xcodebuild, to point to a specific Xcode folder. To faciliate this, you can use xcode-select. A common use case is if you use scripts and/or makefiles to build your projects.
+Once you set the Xcode folder, xcodebuild will be invoked from the folder you specified.
+The command line options are below:
+
+xcode-select [-help]
+xcode-select [-switch xcode_folder_path]
+xcode-select [-print-path]
+xcode-select [-version]
+Here is how to print the current Xcode path:
+
+打印当前正在使用的是那个版本的xcode
+
+macserver1:~ admindyn$  xcode-select --print-path
+/Applications/Xcode.app/Contents/Developer
+
+Line number 2 shows the current version of Xcode that is ‘active.’ If you are accessing xcodebuild or other related tools from a script, –print-path is the preferred means to determine the current Xcode location.
+Use the -switch option to change to another version of Xcode on your system:
+
+调整使用的Xcode版本 
+
+macserver1:~ admindyn$ sudo xcode-select -switch  /Applications/Xcode8.0.app
+Password:
+macserver1:~ admindyn$  xcode-select --print-path
+/Applications/Xcode8.0.app/Contents/Developer
+macserver1:~ admindyn$ 
+
+
+
+To switch back to Xcode installed in the /Applications directory:
+
+$ sudo xcode-select -switch /Applications/Xcode.app/
+You can read more about xcode-select by view the man page from a terminal:
+
+~$man xcode-select
+
+
+当然 这里的 切换命令行xcodebuild版本 是永久的  如果哪天发现版本 或者使用xcodebuild有问题 需要自己选择合适的版本 进行切换
+
+macserver1:~ admindyn$ sudo xcode-select -switch /Applications/Xcode.app/
+macserver1:~ admindyn$ xcrun -version
+xcrun version 32.
+macserver1:~ admindyn$ xcodebuild -version
+Xcode 8.3.2
+Build version 8E2002
+macserver1:~ admindyn$ sudo xcode-select -switch /Applications/Xcode8.0.app/
+macserver1:~ admindyn$ xcrun -version
+xcrun version 30.
+macserver1:~ admindyn$ xcodebuild -version
+Xcode 8.0
+Build version 8A218a
+macserver1:~ admindyn$ 
