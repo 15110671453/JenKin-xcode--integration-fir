@@ -73,10 +73,47 @@ sudo chmod -R 777   ./
 JenKin的卸载
 	//进入以下目录，双击运行
 	/Library/Application Support/Jenkins/Uninstall.command
+	------** 找到 JenKin的 卸载 和 真正的 启动程序**-----
+
+macserver1:Jenkins admindyn$ cd /Library/Application\ Support/Jenkins/
+macserver1:Jenkins admindyn$ ls -la
+total 16
+drwxr-xr-x   4 501   wheel   136  9 25 10:12 .
+drwxr-xr-x  23 root  admin   782  9 25 10:12 ..
+-rwxrwxr-x   1 501   wheel   754  9 15 07:41 Uninstall.command
+-rwxrwxr-x   1 501   wheel  1398  9 15 07:41 jenkins-runner.sh
+macserver1:Jenkins admindyn$
+
+
+------****-------
 	//也可以这样运行
 	sh "/Library/Application Support/Jenkins/Uninstall.command"
 
 	//删除配置，这个可选
+
+------------** JenKin的 开机 配置文件  在这里**--------
+
+
+
+macserver1:LaunchAgents admindyn$ cd /Library/LaunchDaemons
+macserver1:LaunchDaemons admindyn$ ls -la
+total 88
+drwxr-xr-x  13 root  wheel   442  9 26 09:14 .
+drwxr-xr-x+ 64 root  wheel  2176  4 12 16:32 ..
+-rw-r--r--   1 root  wheel   552  9 26 09:20 com.adobe.acc.installer.plist
+-rw-r--r--   1 root  wheel   642  5 31 09:27 com.adobe.agsservice.plist
+-rw-r--r--   1 root  wheel   462  8 30 04:06 com.adobe.fpsaud.plist
+-rw-r--r--   1 root  wheel   559  6  9 16:48 com.apple.serverd.plist
+-rwxr-xr-x   1 root  wheel   560  7 13 17:37 com.intel.haxm.plist
+-rw-r--r--   1 root  wheel   267  1  4  2017 com.microsoft.autoupdate.helper.plist
+-rw-r--r--   1 root  wheel   657 12  9  2016 com.microsoft.office.licensingV2.helper.plist
+-rw-r--r--   1 root  wheel   939 12  4  2014 com.openlinksw.oplmgr.plist
+lrwxr-xr-x   1 root  wheel   103 11 16  2016 com.oracle.java.Helper-Tool.plist -> /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Resources/com.oracle.java.Helper-Tool.plist
+-rw-r--r--   1 root  wheel   623  2 24  2017 com.oracle.oss.mysql.mysqld.plist
+-rw-r--r--   1 root  wheel   941  9 15 07:41 org.jenkins-ci.plist
+macserver1:LaunchDaemons admindyn$ 
+	---****---
+
 	sudo rm -rf /var/root/.jenkins ~/.jenkins
 	sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
 	sudo rm /Library/LaunchDaemons/org.jenkins-ci.plist
@@ -86,6 +123,13 @@ JenKin的卸载
 	sudo dscl . -delete /Groups/jenkins
 	sudo rm -f /etc/newsyslog.d/jenkins.conf
 	pkgutil --pkgs | grep 'org\.jenkins-ci\.' | xargs -n 1 sudo pkgutil --forget
+---**我们 先不卸载 只是 先 取消 JenKIn的 开机 启动 任务
+
+	macserver1:Jenkins admindyn$ sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+Password:
+macserver1:Jenkins admindyn$ 
+**----
+
 
 	//如果使用brew安装的，可以执行以下命令
 	brew uninstall jenkins

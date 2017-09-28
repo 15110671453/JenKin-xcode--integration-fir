@@ -167,3 +167,15 @@ Program 这个值用来指定进程的可执行文件的路径。
 
 ProgramArguments 如果未指定Program时就必须指定该项，包括可执行文件文件和运行的参数。
 
+
+------** 找到 JenKin的 卸载 和 真正的 启动程序**-----
+
+macserver1:Jenkins admindyn$ cd /Library/Application\ Support/Jenkins/
+macserver1:Jenkins admindyn$ ls -la
+total 16
+drwxr-xr-x   4 501   wheel   136  9 25 10:12 .
+drwxr-xr-x  23 root  admin   782  9 25 10:12 ..
+-rwxrwxr-x   1 501   wheel   754  9 15 07:41 Uninstall.command
+-rwxrwxr-x   1 501   wheel  1398  9 15 07:41 jenkins-runner.sh
+macserver1:Jenkins admindyn$
+
