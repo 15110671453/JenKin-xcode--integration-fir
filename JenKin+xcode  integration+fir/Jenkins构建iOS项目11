@@ -1,0 +1,111 @@
+Jenkins构建iOS项目11
+
+整理
+系统keychain目录
+
+/Users/admindyn/Library/Keychains/login.keychain
+
+系统provisioning文件目录
+
+
+Users/admindyn/Library/MobileDevice/Provisioning\ Profiles/
+
+
+
+JenKin 目录
+
+
+/Users/Shared/Jenkins/Home/kpp_upload/
+
+
+/Users/Shared/Jenkins/Library/Provisioning Profiles
+
+
+Mac用户权限检查
+
+查看当前登陆正在操作的用户信息
+macserver1:Provisioning Profiles admindyn$ who am i
+admindyn ttys000  Sep 28 09:24 
+
+查看登陆用户的权限信息
+用户名 用户密码  用户ID  用户所属组 用户描述备注信息  用户主目录
+
+macserver1:Provisioning Profiles admindyn$ id admindyn
+uid=503(admindyn) gid=20(staff) groups=20(staff),702(com.apple.sharepoint.group.2),12(everyone),61(localaccounts),79(_appserverusr),80(admin),81(_appserveradm),98(_lpadmin),703(com.apple.sharepoint.group.3),704(com.apple.sharepoint.group.4),33(_appstore),100(_lpoperator),204(_developer),395(com.apple.access_ftp),398(com.apple.access_screensharing),399(com.apple.access_ssh)
+macserver1:Provisioning Profiles admindyn$ 
+
+
+查看JenKins 用户的权限信息 
+
+
+用户名 用户密码  用户ID  用户所属组 用户描述备注信息  用户主目录
+macserver1:Provisioning Profiles admindyn$ id JenKins
+	uid=266(jenkins) gid=266(jenkins) groups=266(jenkins),12(everyone),61(localaccounts),702(com.apple.sharepoint.group.2),100(_lpoperator),703(com.apple.sharepoint.group.3),704(com.apple.sharepoint.group.4)
+
+macserver1:Provisioning Profiles admindyn$ 
+
+
+举例 权限与项目业务的关系
+	比如我有hexu 和 www 用户和用户组：
+
+	www创建为内部用户禁止远程登陆，用于运行web service。
+	hexu创建为外部使用用户，用于登陆、调试或是上传代码等。
+	这时可以考虑hexu添加到www用户组，并将代码目录允许组读写：
+
+	$ usermod -a -G www hexu   # 将hexu添加到www用户组
+	$ chmod -R ug+w /data/code  # 将目录添加用户组可写
+
+我们这里需要修改JenKins用户的用户组 与 admin一致
+
+
+	usermod -g 20 JenKins
+
+	修改后查看JenKins 权限信息
+
+	id JenKins
+
+
+JenKin的卸载
+	//进入以下目录，双击运行
+	/Library/Application Support/Jenkins/Uninstall.command
+	//也可以这样运行
+	sh "/Library/Application Support/Jenkins/Uninstall.command"
+
+	//删除配置，这个可选
+	sudo rm -rf /var/root/.jenkins ~/.jenkins
+	sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+	sudo rm /Library/LaunchDaemons/org.jenkins-ci.plist
+	sudo rm -rf /Applications/Jenkins "/Library/Application Support/Jenkins" /Library/Documentation/Jenkins
+	sudo rm -rf /Users/Shared/Jenkins
+	sudo dscl . -delete /Users/jenkins
+	sudo dscl . -delete /Groups/jenkins
+	sudo rm -f /etc/newsyslog.d/jenkins.conf
+	pkgutil --pkgs | grep 'org\.jenkins-ci\.' | xargs -n 1 sudo pkgutil --forget
+
+	//如果使用brew安装的，可以执行以下命令
+	brew uninstall jenkins
+
+列出当前登陆的所有用户
+who
+
+显示当前登陆的所有用户
+ 
+ who am i
+
+清除屏幕或窗口内容
+clear
+
+改变文件或目录的权限
+chmod 
+
+改变文件或目录的属主
+
+chown
+
+改变文件或目录所属的组
+chgrp
+
+显示当前所有设置过的环境变量
+env
+
+
