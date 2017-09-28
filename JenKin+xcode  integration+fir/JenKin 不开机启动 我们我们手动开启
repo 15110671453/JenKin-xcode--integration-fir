@@ -1,4 +1,4 @@
-JenKin 不开机启动 我们我们手动开启
+JenKin 不开机启动 我们我们手动开启1
 
 先切换到 网站 主目录
 macserver1:Home admindyn$ cd /Users/Shared/Jenkins/Home
@@ -185,3 +185,19 @@ Jenkins home directory: /Users/Shared/Jenkins/Home found at: EnvVars.masterEnvVa
 
 
 -----**成功 手动开启 JenKin的服务**-----
+
+
+新的方式启动后 将原先 工程中buildJenKins IPAResults 清空 因为 有之前 JenKin用户生成的文件 新的启动方式 有权限不足 无法删除或覆盖
+
+
+
+但是 由于命令行启动的 关闭终端 该服务也就关了
+
+
+
+
+
+
+
+
+
