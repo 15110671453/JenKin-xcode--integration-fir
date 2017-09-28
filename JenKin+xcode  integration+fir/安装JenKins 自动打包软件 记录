@@ -120,8 +120,10 @@ JenKins服务 启动
 	方法一：直接下载安装包
 
 	安装完成后在 Terminal 中输入，即可打开 Jenkins。
-
-	open /Applications/Jenkins/jenkins.war】
+macserver1:JenKins admindyn$ cd /Applications/Jenkins 
+macserver1:Jenkins admindyn$ open /Applications/Jenkins/jenkins.war
+macserver1:Jenkins admindyn$ 
+】
 
 JenKins服务 关闭
 	方法一： 比较简单的方式 到服务的管理后台

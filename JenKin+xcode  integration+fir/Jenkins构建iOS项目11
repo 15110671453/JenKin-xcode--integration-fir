@@ -1,5 +1,5 @@
 Jenkins构建iOS项目11
-
+58W4HKZ65K
 整理
 系统keychain目录
 
@@ -20,6 +20,9 @@ JenKin 目录
 
 /Users/Shared/Jenkins/Library/Provisioning Profiles
 
+历史build记录文件目录
+
+/Users/Shared/Jenkins/Home/jobs/JenKinTest/builds
 
 Mac用户权限检查
 
@@ -64,6 +67,8 @@ macserver1:Provisioning Profiles admindyn$
 
 	id JenKins
 
+cd /Users/Shared/Jenkins
+sudo chmod -R 777   ./
 
 JenKin的卸载
 	//进入以下目录，双击运行

@@ -146,4 +146,13 @@ macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/
 
 
 
+macserver1:JenKins admindyn$ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd who-am-i
+Authenticated as: yanan.ding
+Authorities:
+  authenticated
+
+
+
+  
+
     java -jar jenkins-cli.jar -s http://localhost:8080/ -auth yanan.ding:asd1453nmd safe-shutdown
