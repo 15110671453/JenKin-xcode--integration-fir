@@ -1,0 +1,169 @@
+Mac OSX的开机启动配置1
+
+com.apple.loginitems.plist
+
+MAC开机启动 有三种方式 
+
+第一种 设置登陆项
+
+在 设置 用户群组中就可以添加
+
+
+第二种 JenKIn 用的就是这一种 
+
+Launchd Daemon
+此类型的启动项都由launchd来负责启动，launchd是Mac OS下用于初始化系统环境的关键进程，它是内核装载成功之后在OS环境下启动的第一个进程。采用这种方式来配置自启动项很简单，只需要一个plist文件，该plist文件存在的目录有
+
+
+~/Library/LaunchAgents (我们的 系统 存在 有这个目录 也是plist文件)
+macserver1:LaunchAgents admindyn$ cd ~/Library/LaunchAgents
+macserver1:LaunchAgents admindyn$ ls -la
+total 32
+drwxr-xr-x@  6 admindyn  staff   204  9 27 14:13 .
+drwxrwxrwx@ 76 admindyn  staff  2584  9 26 17:39 ..
+-rw-r--r--   1 admindyn  staff   697  4 14 12:13 com.adobe.AAM.Updater-1.0.plist
+lrwxr-xr-x   1 admindyn  staff    76  9 27 14:13 com.apple.serveralertproxy.plist -> /Applications/Server.app/Contents/Resources/com.apple.serveralertproxy.plist
+-rw-r--r--   1 admindyn  staff  1905 12 28  2016 com.github.facebook.watchman.plist
+-rw-r--r--@  1 admindyn  staff   805 11 25  2016 com.google.keystone.agent.plist
+macserver1:LaunchAgents admindyn$ 
+
+
+
+/Library/LaunchAgents (我们的 系统 存在 有这个目录 也是plist文件)
+
+macserver1:LaunchDaemons admindyn$ cd /Library/LaunchAgents
+macserver1:LaunchAgents admindyn$ ls -la
+total 32
+drwxr-xr-x   6 root  wheel   204  9 26 09:18 .
+drwxr-xr-x+ 64 root  wheel  2176  4 12 16:32 ..
+-rw-r--r--   1 root  wheel   612  4 14 12:02 com.adobe.AAM.Updater-1.0.plist
+-rw-r--r--   1 root  wheel   667  7 25 08:45 com.adobe.AdobeCreativeCloud.plist
+lrwxr-xr-x   1 root  wheel   104 11 16  2016 com.oracle.java.Java-Updater.plist -> /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Resources/com.oracle.java.Java-Updater.plist
+-rw-r--r--@  1 root  wheel   425  5 29  2015 com.sogou.SogouServices.plist
+
+
+
+
+
+/System/Library/LaunchAgents (我们的 系统 存在 有这个目录 也是plist文件 不过全是苹果标志的 苹果服务plist文件 )
+
+macserver1:LaunchAgents admindyn$ cd /System/Library/LaunchAgents
+macserver1:LaunchAgents admindyn$ ls -la
+total 8
+
+这个数字 有问题？？
+drwxr-xr-x  284 root  wheel  9656  6 22 11:56 .
+drwxr-xr-x   92 root  wheel  3128  5  9 08:35 ..
+-rw-r--r--    1 root  wheel   869  7 31  2016 com.apple.AOSHeartbeat.plist
+-rw-r--r--    1 root  wheel   839  7 31  2016 com.apple.AOSPushRelay.plist
+-rw-r--r--    1 root  wheel   613  9 28  2016 com.apple.AddressBook.AssistantService.plist
+-rw-r--r--    1 root  wheel   744  9 28  2016 com.apple.AddressBook.ContactsAccountsService.plist
+-rw-r--r--    1 root  wheel  1063  9 28  2016 com.apple.AddressBook.SourceSync.plist
+-rw-r--r--    1 root  wheel   677  9 28  2016 com.apple.AddressBook.abd.plist
+
+没有粘贴完 系统服务 有很多呢
+
+以上三个目录为系统推荐放置的路径，是当登录之后启动的进程
+
+~/Library/LaunchDaemons
+
+
+
+/Library/LaunchDaemons（我们测试 发现 我们的系统 存放 开机启动的JenKin的 plist文件 在这个目录）
+
+macserver1:LaunchAgents admindyn$ cd /Library/LaunchDaemons
+macserver1:LaunchDaemons admindyn$ ls -la
+total 88
+drwxr-xr-x  13 root  wheel   442  9 26 09:14 .
+drwxr-xr-x+ 64 root  wheel  2176  4 12 16:32 ..
+-rw-r--r--   1 root  wheel   552  9 26 09:20 com.adobe.acc.installer.plist
+-rw-r--r--   1 root  wheel   642  5 31 09:27 com.adobe.agsservice.plist
+-rw-r--r--   1 root  wheel   462  8 30 04:06 com.adobe.fpsaud.plist
+-rw-r--r--   1 root  wheel   559  6  9 16:48 com.apple.serverd.plist
+-rwxr-xr-x   1 root  wheel   560  7 13 17:37 com.intel.haxm.plist
+-rw-r--r--   1 root  wheel   267  1  4  2017 com.microsoft.autoupdate.helper.plist
+-rw-r--r--   1 root  wheel   657 12  9  2016 com.microsoft.office.licensingV2.helper.plist
+-rw-r--r--   1 root  wheel   939 12  4  2014 com.openlinksw.oplmgr.plist
+lrwxr-xr-x   1 root  wheel   103 11 16  2016 com.oracle.java.Helper-Tool.plist -> /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Resources/com.oracle.java.Helper-Tool.plist
+-rw-r--r--   1 root  wheel   623  2 24  2017 com.oracle.oss.mysql.mysqld.plist
+-rw-r--r--   1 root  wheel   941  9 15 07:41 org.jenkins-ci.plist
+macserver1:LaunchDaemons admindyn$ 
+
+
+
+/System/Library/LaunchDaemons （我们的系统 这里放的是 苹果自带服务 的默认开机启动 plist 文件 目录）
+macserver1:LaunchDaemons admindyn$ cd /System/Library/LaunchDaemons
+macserver1:LaunchDaemons admindyn$ ls -la
+total 48
+
+发现 48 条中 有这么几条 不是 苹果的服务 怎么 跑到 系统的 目录中了？？？
+
+-rw-r--r--    1 root  wheel    481  7 31  2016 com.apple.xscertd-helper.plist
+-rw-r--r--    1 root  wheel    684  7 31  2016 com.apple.xscertd.plist
+-rw-r--r--    1 root  wheel    574  7 31  2016 com.vix.cron.plist
+-rw-r--r--    1 root  wheel    682  7 31  2016 finger.plist
+-rw-r--r--    1 root  wheel    763  7 31  2016 ftp.plist
+-rw-r--r--    1 root  wheel    627  9 24  2016 ntalk.plist
+-rw-r--r--    1 root  wheel    554  8  9  2016 org.apache.httpd.plist
+-rw-r--r--    1 root  wheel    905  7 31  2016 org.cups.cups-lpd.plist
+-rw-r--r--    1 root  wheel   1302  7 31  2016 org.cups.cupsd.plist
+-rw-r--r--    1 root  wheel    515  7 31  2016 org.net-snmp.snmpd.plist
+-rw-r--r--    1 root  wheel    498  7 31  2016 org.ntp.ntpd.plist
+-rw-r--r--    1 root  wheel    980  7 31  2016 org.openldap.slapd.plist
+-rw-r--r--    1 root  wheel    572  8  1  2015 org.postfix.master.plist
+-rw-r--r--    1 root  wheel    988  7 31  2016 ssh.plist
+-rw-r--r--    1 root  wheel    260  9 24  2016 telnet.plist
+-rw-r--r--    1 root  wheel    715  9 24  2016 tftp.plist
+macserver1:LaunchDaemons admindyn$ 
+
+放置在以上三个目录，则启动为守护进程，为系统启动后立即启动的进程
+
+
+------------**先在 让我们 解决 JenKin的 开机 配置问题**--------
+
+
+
+macserver1:LaunchAgents admindyn$ cd /Library/LaunchDaemons
+macserver1:LaunchDaemons admindyn$ ls -la
+total 88
+drwxr-xr-x  13 root  wheel   442  9 26 09:14 .
+drwxr-xr-x+ 64 root  wheel  2176  4 12 16:32 ..
+-rw-r--r--   1 root  wheel   552  9 26 09:20 com.adobe.acc.installer.plist
+-rw-r--r--   1 root  wheel   642  5 31 09:27 com.adobe.agsservice.plist
+-rw-r--r--   1 root  wheel   462  8 30 04:06 com.adobe.fpsaud.plist
+-rw-r--r--   1 root  wheel   559  6  9 16:48 com.apple.serverd.plist
+-rwxr-xr-x   1 root  wheel   560  7 13 17:37 com.intel.haxm.plist
+-rw-r--r--   1 root  wheel   267  1  4  2017 com.microsoft.autoupdate.helper.plist
+-rw-r--r--   1 root  wheel   657 12  9  2016 com.microsoft.office.licensingV2.helper.plist
+-rw-r--r--   1 root  wheel   939 12  4  2014 com.openlinksw.oplmgr.plist
+lrwxr-xr-x   1 root  wheel   103 11 16  2016 com.oracle.java.Helper-Tool.plist -> /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Resources/com.oracle.java.Helper-Tool.plist
+-rw-r--r--   1 root  wheel   623  2 24  2017 com.oracle.oss.mysql.mysqld.plist
+-rw-r--r--   1 root  wheel   941  9 15 07:41 org.jenkins-ci.plist
+macserver1:LaunchDaemons admindyn$ 
+
+
+研究 org.jenkins-ci.plist 它的内容
+
+不同的目录进程启动的权限和优先级是不一样的，你可以通过以下的方式进行设置：
+
+1.通过launchctl load xxx.plist或launchctl unload xxx.plist命令添加和删除指定启动项；
+
+2.直接创建、修改、删除相关目录下面的plist文件。
+
+
+plist中主要的字段和它的含义
+
+Label 用来在launchd中的一个唯一标识，类似于每一个程序都有一个identifies一样。
+
+UserName 指定运行启动项的用户，只有当Launchd 作为 root 用户运行时，此项才适用。
+
+GroupName 指定运行启动项的组，只有当Launchd 作为 root 用户运行时，此项才适用。
+
+KeepAlive 这个key值是用来控制可执行文件是持续运行呢，还是满足具体条件之后再启动。默认值为false，也就是说满足具体条件之后才启动。当设置值为ture时，表明无条件的开启可执行文件，并使之保持在整个系统运行周期内。
+
+RunAtLoad 标识launchd在加载完该项服务之后立即启动路径指定的可执行文件。默认值为false。
+
+Program 这个值用来指定进程的可执行文件的路径。
+
+ProgramArguments 如果未指定Program时就必须指定该项，包括可执行文件文件和运行的参数。
+
