@@ -1,0 +1,19 @@
+JenKin开机启动
+
+20170928
+我们 没有卸载Jenkin的开机启动
+
+20170929 下面 这个命令  只是 在登陆状态时 临时 关闭了 开机启动任务 并且 JenKin服务的确关闭了
+sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+
+
+但是 20170929 第二天打开浏览器 访问 服务 竟然正常
+
+
+因为 我们不打算卸载Jenkin
+
+就这么用吧
+
+每次 手动启动服务前 先关闭一次开机启动的任务而已
+
+sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
