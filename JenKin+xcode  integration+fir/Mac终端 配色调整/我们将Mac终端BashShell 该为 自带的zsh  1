@@ -1,0 +1,46 @@
+我们将Mac终端BashShell 该为 自带的zsh  1
+
+macserver1:~ admindyn$ chsh -h
+chsh: illegal option -- h
+usage: chpass [-l location] [-u authname] [-s shell] [user]
+macserver1:~ admindyn$ chsh -s /bin/zsh
+Changing shell for admindyn.
+Password for admindyn: 
+macserver1:~ admindyn$ 
+
+
+记录  为zsh 配置 主题 先下载github开源的主题源文件
+
+macserver1:~ admindyn$ git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+Cloning into '/Users/admindyn/.oh-my-zsh'...
+remote: Counting objects: 17463, done.
+remote: Total 17463 (delta 0), reused 0 (delta 0), pack-reused 17463
+Receiving objects: 100% (17463/17463), 3.96 MiB | 41.00 KiB/s, done.
+Resolving deltas: 100% (9438/9438), done.
+
+
+然后 配置 需要 替换几个文件
+
+# 备份 先把就的zsh的主题 配置文件 备份了 以免配置开源的文件不成功 可以回滚
+macserver1:~ admindyn$ cp ~/.zshrc ~/.zshrc.orig
+# 替换 这里 真正开始 配置 替换掉 旧的配置文件
+macserver1:~ admindyn$ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+macserver1:~ admindyn$ 
+
+
+最后 重启 终端
+
+
+
+选一个合适的zsh主题
+注意：采用zsh替代bash后，以前~/.bashrc之类的配置应该写入~/.zshrc中
+在~/.oh-my-zsh/themes目录中，有大量的主题可供选择，根据不同的爱好，可以自行选择，然后在~/.zshrc中配置即可
+
+打开~/.zshrc，添加一行
+
+# 我自己选择的主题
+ZSH_THEME="ys"
+
+
+
+
