@@ -1,0 +1,7 @@
+添加archive  将archive -- 导出为IPA包
+
+[JenKinTest] $ /bin/sh -xe /Users/Shared/Jenkins/tmp/jenkins4134698647891629974.sh
++ sudo xcrun -sdk iphoneos PackageApplication -v /Users/admindyn/Desktop/JenKins/Release-iphoneos/JenKinTest -o /Users/admindyn/Desktop/JenKins/JenKinTest.ipa
+xcrun: error: unable to find utility "PackageApplication", not a developer tool or in PATH
+Build step 'Execute shell' marked build as failure
+Finished: FAILURE
