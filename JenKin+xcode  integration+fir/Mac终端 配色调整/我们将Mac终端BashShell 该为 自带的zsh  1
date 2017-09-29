@@ -42,5 +42,14 @@ macserver1:~ admindyn$
 ZSH_THEME="ys"
 
 
+zsh切换bash bash切换zsh
+
+切换bash
+chsh -s /bin/bash
+
+切换zsh
+chsh -s /bin/zsh
+
+
 
 
