@@ -1,0 +1,10 @@
+xcrun 导出IPA方法 在xcode7.0以后 已经被废除
+
+
+使用 xcodebuild -exportArchive -archivePath /Users/admindyn/Desktop/JenKins/build -exportPath /Users/admindyn/Desktop/JenKins -exportOptionsPlist /Users/admindyn/Desktop/JenKins/Info.plist
+
+打包  
+
+这里需要 指出 所需要plist的文件 不是 我们原先工程中 的plist文件
+
+而是 要单独制作的
