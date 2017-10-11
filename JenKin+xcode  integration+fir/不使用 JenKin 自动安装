@@ -1,0 +1,60 @@
+不使用 JenKin 自动安装 
+
+不勾选 自启动 以jenKin用户身份
+
+我们 自定义安装 发现 和之前不同的是 我们找不到/Users/Shared/Jenkins/Home 这个 原先的 服务网站的根目录
+
+
+启动  第一
+
+ 我们 启动 直接用
+macserver1:etc admindyn$ cd /Library/Application\ Support/Jenkins/
+macserver1:Jenkins admindyn$ ls -la
+total 16
+drwxr-xr-x   4 501   wheel   136 10 11 17:20 .
+drwxr-xr-x  23 root  admin   782 10 11 17:20 ..
+-rwxrwxr-x   1 501   wheel   754  9 15 07:41 Uninstall.command
+-rwxrwxr-x   1 501   wheel  1398  9 15 07:41 jenkins-runner.sh
+macserver1:Jenkins admindyn$ 
+
+第二 启动后 依旧没有 原先 标准安装的网站目录 
+
+Last login: Wed Oct 11 17:29:27 on ttys000
+macserver1:~ admindyn$ cd /Users/admindyn/.jenkins/secrets/
+macserver1:secrets admindyn$ vi initialAdminPassword 
+macserver1:secrets admindyn$ echo $JENKINS_HOME 
+/Applications/Jenkins/jenkins.war
+macserver1:secrets admindyn$ cd /Users/Shared/Jenkins/Home
+-bash: cd: /Users/Shared/Jenkins/Home: No such file or directory
+macserver1:secrets admindyn$ 
+
+
+
+第三 检查 环境变量  发现 脚本帮我们添加了 网站根目录
+export JENKINS_HOME=/Applications/Jenkins/jenkins.war
+
+macserver1:etc admindyn$ vi bashrc
+
+fi
+
+PS1='\h:\W \u\$ '
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+
+[ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
+FFMPEG_Script="/Users/admindyn/Desktop/gas-preprocessor-master"
+export FFMPEG_Script
+export HTTPD_PATH=/Applications/XAMPP/xamppfiles/bin/httpd
+export SPARK_HOME=/usr/local/spark/spark-2.0.2-bin-hadoop2.7
+export OPENCV_PATH=/Users/admindyn/Desktop/opencvbuildreleasedyn/bin
+export PHP_FPM=/usr/local/php7.1.2/sbin
+export PHP_PATH=/usr/local/php7.1.2/bin
+export JENKINS_HOME=/Applications/Jenkins/jenkins.war
+export PKG_CONFIG_PATH=/usr/local/lib/pkg-config
+export PATH=$PHP_FPM:$SPARK_HOME/bin:$PATH
+export PATH=$PHP_PATH:$PATH:FFMPEG_Script
+export PATH=$PATH:OPENCV_PATH
+export PATH=$PATH:$PKG_CONFIG_PATH
+export PATH=$PATH:$JENKINS_HOME
+# export OPENSSL_PATH=/usr/local/Cellar/openssl/1.0.2j/bin
+# export PATH=$HTTPD_PATH:$OPENSSL_PATH:$PATH

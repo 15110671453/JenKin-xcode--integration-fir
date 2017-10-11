@@ -1,0 +1,42 @@
+JenKin 卸载 准备 重新安装  国庆后20171011
+
+不使用 自定义 安装 准备 自定义 不然 会有很多问题
+
+macserver1:~ admindyn$ cd /Library/Application\ Support/Jenkins/
+macserver1:Jenkins admindyn$ ls -la
+total 16
+drwxr-xr-x   4 501   wheel   136  9 25 10:12 .
+drwxr-xr-x  23 root  admin   782  9 25 10:12 ..
+-rwxrwxr-x   1 501   wheel   754  9 15 07:41 Uninstall.command
+-rwxrwxr-x   1 501   wheel  1398  9 15 07:41 jenkins-runner.sh
+macserver1:Jenkins admindyn$ ./Uninstall.command 
+
+
+Jenkins uninstallation script
+
+The following commands are executed using sudo, so you need to be logged
+in as an administrator. Please provide your password when prompted.
+
++ sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+Password:
++ sudo rm /Library/LaunchDaemons/org.jenkins-ci.plist
++ sudo rm -rf /Applications/Jenkins '/Library/Application Support/Jenkins' /Library/Documentation/Jenkins
++ sudo rm -rf /Users/Shared/Jenkins
++ sudo rm -rf /var/log/jenkins
++ sudo rm -f /etc/newsyslog.d/jenkins.conf
++ sudo dscl . -delete /Users/jenkins
+delete: Invalid Path
+<dscl_cmd> DS Error: -14009 (eDSUnknownNodeName)
++ sudo dscl . -delete /Groups/jenkins
++ pkgutil --pkgs
++ grep 'org\.jenkins-ci\.'
++ xargs -n 1 sudo pkgutil --forget
+Forgot package 'org.jenkins-ci.documentation.pkg' on '/'.
+Forgot package 'org.jenkins-ci.jenkins.osx.pkg' on '/'.
+Forgot package 'org.jenkins-ci.jenkins2731.postflight.pkg' on '/'.
+Forgot package 'org.jenkins-ci.launchd-jenkins.pkg' on '/'.
+Forgot package 'org.jenkins-ci.support.pkg' on '/'.
++ set +x
+
+Jenkins has been uninstalled.
+macserver1:Jenkins admindyn$ 
